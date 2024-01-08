@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: stripe
+    database: dbt-tutorial
+    tables:
+      - name: payment # Table source name 
+        loaded_at_field: _batched_at # This field has to be write manually, this config only can happen if 
+        # we currently have a date_loaded_field in any source table, right???
+        freshness: 
+          warn_after:
+            count: 1
+            period: day
+          error_after:
+            count: 2
+            period: day
+        

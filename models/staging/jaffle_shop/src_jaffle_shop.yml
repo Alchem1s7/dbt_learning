@@ -1,0 +1,28 @@
+version: 2
+
+ 
+sources:
+  - name: jaffle_shop # This would be the source name 
+    description: A clone of postgres app database
+    database: dbt-tutorial # In BigQuery, the project is the database
+    tables:
+      - name: customers
+        description: A raw customers data
+        columns:
+          - name: id
+            description: Consecutive integer of customers, unique, PK of customers table
+
+      - name: orders
+        description: A raw orders data
+        columns:
+          - name: id
+            description: The primary key for raw orders data. 
+        loaded_at_field: _etl_loaded_at
+        freshness: 
+          warn_after:
+            count: 12
+            period: hour
+          error_after:
+            count: 24
+            period: hour
+        

@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_payments
+    description: This is the payments stage table of jaffle_shop buys
+    columns:
+      - name: orderid
+        description: FK of orders, the number of the order
+        tests:
+          - relationships:
+              field: order_id
+              to: ref('stg_orders')
+      - name: payment_id
+        description: This is the primary key of the payments stage table.
+        tests:
+          - not_null
+          - unique
+      - name: paymentmethod
+        description: '{{doc("payment_method")}}'
+      

@@ -1,0 +1,44 @@
+# This script contains stg_jaffle_shop general tests and documentation
+# These test check uniqueness, nullness and specific values for certain columns
+# all constructed in a YML file
+
+
+version: 2
+
+models:
+  - name: stg_customers
+    description: One unique customer per row
+    columns:
+      - name: customer_id
+        description: The PK for stg_customers
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: This is the first name of the customer
+      - name: last_name
+        description: The last name of the customers, can be one or two.
+
+  - name: stg_orders
+    description: One order per customer 
+    columns:
+      - name: order_id
+        description: The PK for stg_orders, unique
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: '{{ doc("order_status")}}'
+        tests:
+          - accepted_values:
+              values: ['completed','shipped','returned','return_pending','placed']
+      - name: customer_id
+        description: This is a FK of the customers, all of these values has to exist in stg_customers
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_date
+        description: The date of the order maded by the customer
+
+          
